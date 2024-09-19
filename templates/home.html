@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: "Montserrat", sans-serif;
+            background-image: url("{{ url_for("static", filename="bgimage.jpg") }}");
+            background-size: cover;
+            background-attachment: fixed;
+            color: #e0e0e0;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        /* Overlay for background opacity */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent overlay */
+            z-index: 1;
+        }
+
+        #prediction-container {
+            background-color: rgba(255, 255, 255, 0.2); /* Light bluish-gray with transparency */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 700px; /* Increased form width */
+            margin-top: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 2; /* Ensure it's above the background overlay */
+        }
+
+        h2 {
+            text-align: center;
+            color: #f5f5f5;
+            margin-bottom: 25px;
+            font-weight: 700;
+        }
+
+        label {
+            font-size: 14px;
+            color: #ddd;
+            margin-bottom: 5px;
+        }
+
+        input[type="number"],
+        input[type="text"] {
+            background-color: #3a3a3a;
+            color: #e0e0e0;
+            border: none;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 15px;
+            width: 100%;
+            font-size: 16px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        input[type="number"]:focus,
+        input[type="text"]:focus {
+            background-color: #4a4a4a;
+            border-color: #ff6347;
+            outline: none;
+        }
+
+        #submit-btn {
+            background-color: #ff6347;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        #submit-btn:hover {
+            background-color: #ff4500;
+        }
+
+        #result {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #ddd;
+        }
+
+        #result span {
+            color: #ff6347;
+            font-weight: 700;
+        }
+
+        /* Ensure the form is above the background */
+        form {
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body>
+
+<div id="prediction-container" class="container">
+    <form action="{{ url_for('predict') }}" method="post">
+        <h2>Diabetes Prediction</h2>
+        <div class="mb-3">
+            <label for="pregnancies">Number of Pregnancies</label>
+            <input name="pregnancies" type="number" id="pregnancies" required>
+        </div>
+        <div class="mb-3">
+            <label for="glucose">Glucose Level</label>
+            <input name="glucose" type="number" id="glucose" required>
+        </div>
+        <div class="mb-3">
+            <label for="bloodPressure">Blood Pressure</label>
+            <input name="bloodPressure" type="number" id="bloodPressure" required>
+        </div>
+        <div class="mb-3">
+            <label for="skinThickness">Skin Thickness</label>
+            <input name="skinThickness" type="number" id="skinThickness" required>
+        </div>
+        <div class="mb-3">
+            <label for="insulin">Insulin Level</label>
+            <input name="insulin" type="number" id="insulin" required>
+        </div>
+        <div class="mb-3">
+            <label for="bmi">Body Mass Index (BMI)</label>
+            <input name="bmi" type="number" step="0.1" id="bmi" required>
+        </div>
+        <div class="mb-3">
+            <label for="dbf">Diabetes Pedigree Function</label>
+            <input name="dbf" type="number" step="0.01" id="dbf" required>
+        </div>
+        <div class="mb-3">
+            <label for="age">Age</label>
+            <input name="age" type="number" id="age" required>
+        </div>
+
+        <button type="submit" id="submit-btn">Predict</button>
+
+        <div id="result">
+            <h3>The prediction is: <span>{{ prediction_text }}</span></h3>
+        </div>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
